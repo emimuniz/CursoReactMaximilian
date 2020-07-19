@@ -3,6 +3,7 @@ import './App.css';
 import Person from './Person/Person';
 import UserInput from './UserInput/UserInput';
 import UserOutput from './UserOutput/UserOutput';
+import person from './Person/Person';
 
 class App extends Component {
   state = {
@@ -30,6 +31,13 @@ class App extends Component {
     this.setState({showPersons: !doesPersons})
   }
 
+  deletePersonsHandler = (personIndex) => {
+    const persons = this.state.persons;
+    persons.splice(personIndex, 1);
+    this.setState({persons: persons});
+  };
+
+
   nameChangeHandler = (event) => {
     this.setState({
       persons: [
@@ -51,25 +59,17 @@ class App extends Component {
 
     let persons = null; 
     if(this.state.showPersons){       
-      persons = 
+      persons = (
         <div>
-          <Person
-            name={this.state.persons[0].name}
-            age={this.state.persons[0].age}
-          />
-          <Person
-            name={this.state.persons[1].name}
-            age={this.state.persons[1].age}
-            click={this.switchNameHandler.bind(this, 'Geovanne')}
-            changed={this.nameChangeHandler}
-          >
-            My Hobbies: Racing
-          </Person>
-          <Person
-            name={this.state.persons[2].name}
-            age={this.state.persons[2].age}
-          />
+          {this.state.persons.map((persons, index) => {
+            return <Person
+              click={() => this.deletePersonsHandler(index)}
+              name={persons.name}
+              age={persons.age}
+            />
+          })}
         </div>
+      )
     }
 
     return (
