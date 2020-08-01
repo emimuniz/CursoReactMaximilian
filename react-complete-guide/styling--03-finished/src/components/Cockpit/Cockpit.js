@@ -1,9 +1,32 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import classes from './Cockpit.css';
 
 const cockpit = (props) => {
     const assignedClasses = [];
     let btnClass = '';
+
+    useEffect(() => {
+      console.log('[Cockpit.js] useEfeect');
+      //HttpRequest
+
+      const timer = setTimeout(() => {
+          alert('Saved data to cloud')
+      },1000);
+
+      return () => {
+        clearTimeout(timer);
+        console.log('[Cockpit.js] cleanup work in useEfeect')
+      };
+    }, [])
+
+    //realiza somente a primeira vez
+    // useEffect(() => {
+    //   console.log('[Cockpit.js] useEfeect');
+    //   //HttpRequest
+    //   setTimeout(() => {
+    //     alert('Saved data to cloud')
+    //   },1000);
+    // }, [])
 
     if(props.showPersons){
       btnClass = classes.Red;
@@ -18,11 +41,11 @@ const cockpit = (props) => {
 
     return (
         <div className={classes.Cockpit}>
-            <h1>Hi, I'm a React App</h1>
+            <h1>{props.title}</h1>
             <p className={assignedClasses.join(' ')}>This is really working!</p>
             <button className={btnClass} onClick={props.clicked}>Toggle Persons </button>
         </div>
     );
 };
 
-export default cockpit;
+export default React.memo(cockpit);
