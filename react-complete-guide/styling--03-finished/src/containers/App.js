@@ -14,7 +14,8 @@ class App extends Component {
     ],
     otherState: 'some other value',
     showPersons: false, 
-    showCockpit: true
+    showCockpit: true,
+    changedCounter: 0
   };
 
   nameChangedHandler = (event, id) => {
@@ -40,7 +41,7 @@ class App extends Component {
     // const persons = this.state.persons.slice();
     const persons = [...this.state.persons];
     persons.splice(personIndex, 1);
-    this.setState({ persons: persons });
+    this.setState((prevState, props) => { return { persons: persons, changedCounter: prevState.changedCounter + 1 }});
   };
 
   togglePersonsHandler = () => {
